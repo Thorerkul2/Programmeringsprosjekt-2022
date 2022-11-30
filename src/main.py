@@ -1,6 +1,8 @@
 from tkinter import *
 import random
 import time
+from playsound import playsound
+from threading import Thread
 
 isInEditor = False
 def loadLevel(filename):
@@ -8,6 +10,21 @@ def loadLevel(filename):
     levelname = filename
     level = open(filename, "a")
     levelr = open(filename, "r")
+
+def play():
+    global play_thread
+    print("1")
+    def play_thread_function():
+        
+        playsound('assets\music\danger.mp3')
+
+    print("2")
+
+    play_thread = Thread(target=play_thread_function)
+    print("3")
+    play_thread.start()
+    print("4")
+
 
 class Ball:
     def __init__(self, canvas, color, x, y):
@@ -41,7 +58,7 @@ class Racket:
     def __init__(self, canvas, color):
         self.canvas = canvas
         self.id = canvas.create_rectangle(10, 10, 25, 75, fill=color)
-        self.canvas.move(self.id, 50, 140)
+        self.canvas.move(self.id, 10, 140)
         self.x = 0
         self.y = 0
         self.canvas_height = self.canvas.winfo_height()
@@ -95,6 +112,18 @@ class BallSpawner:
 
         level.write(str(int(pos)) + " ")
 
+class GameManager:
+    def __init__(self):
+        pass
+
+    def start(self):
+        play()
+
+    def stop(self):
+        play_thread.terminate()
+
+
+isRunning = True
 tk = Tk()
 tk.title("Game")
 tk.resizable(0, 0)
@@ -121,6 +150,8 @@ def makeBalls(lstx, lsty):
         balllist.append(ball)
 
 def on_closing():
+    isRunning = False
+    gamemanager.stop()
     level.close()
     levelr.close()
     tk.destroy()
@@ -131,6 +162,9 @@ loadLevel("level1.txt")
 isDead = False
 ballspawner = BallSpawner()
 
+gamemanager = GameManager()
+
+
 racket = Racket(canvas, 'blue')
 #ball = Ball(canvas, 'red', 500, 250)
 
@@ -139,7 +173,8 @@ racket = Racket(canvas, 'blue')
 
 
 ballspawner.start()
-while 1:
+gamemanager.start()
+while isRunning:
     ballspawner.update()
     if isDead == False:
         racket.draw()
