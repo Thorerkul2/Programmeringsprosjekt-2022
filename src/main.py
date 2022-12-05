@@ -67,7 +67,17 @@ class BallSpawner:
         #print(levelr.read())
 
         if isInEditor:
-            canvas.bind_all('<KeyPress-Up>', self.writePos)
+            
+            canvas.bind_all('<KeyPress-1>', self.write1)
+            canvas.bind_all('<KeyPress-2>', self.write2)
+            canvas.bind_all('<KeyPress-3>', self.write3)
+            canvas.bind_all('<KeyPress-4>', self.write4)
+            canvas.bind_all('<KeyPress-5>', self.write5)
+            canvas.bind_all('<KeyPress-6>', self.write6)
+            canvas.bind_all('<KeyPress-7>', self.write7)
+            canvas.bind_all('<KeyPress-8>', self.write8)
+            canvas.bind_all('<KeyPress-9>', self.write9)
+            self.writenum = 0
 
         self.i = 0
 
@@ -79,45 +89,52 @@ class BallSpawner:
         self.levelr = open(levelname, "r")
         if isInEditor == False:
             self.read()
+        else:
+            self.write()
 
     def read(self):
         if self.i < len(self.levelt) - 1:
             self.i += 1
 
+        #if self.levelt[self.i] != 0 or 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9:
+        #    self.i = 0
+        
         if int(self.levelt[self.i]) > 0:
             global balllist
             ball = Ball(canvas, 'red', 500, int(self.levelt[self.i])*40 - 10)
             balllist.append(ball)
 
     def write(self):
-        level.write("0-")
+        level.write(str(self.writenum) + "-")
+        print(str(self.writenum) + "-")
+        self.writenum = 0
 
     def write1(self, evt):
-        level.write("1-")
+        self.writenum = 1
 
-    def write1(self, evt):
-        level.write("2-")
+    def write2(self, evt):
+        self.writenum = 2
 
-    def write1(self, evt):
-        level.write("3-")
+    def write3(self, evt):
+        self.writenum = 3
 
-    def write1(self, evt):
-        level.write("4-")
+    def write4(self, evt):
+        self.writenum = 4
 
-    def write1(self, evt):
-        level.write("5-")
+    def write5(self, evt):
+        self.writenum = 5
 
-    def write1(self, evt):
-        level.write("6-")
+    def write6(self, evt):
+        self.writenum = 6
 
-    def write1(self, evt):
-        level.write("7-")
+    def write7(self, evt):
+        self.writenum = 7
 
-    def write1(self, evt):
-        level.write("8-")
+    def write8(self, evt):
+        self.writenum = 8
 
-    def write1(self, evt):
-        level.write("9-")
+    def write9(self, evt):
+        self.writenum = 9
 
 class GameManager:
     def __init__(self):
