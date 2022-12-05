@@ -23,8 +23,8 @@ class Ball:
     def draw(self):
         self.canvas.move(self.id, self.x, self.y)
         self.pos = self.canvas.coords(self.id)
-        #print(self.pos)
         self.physics(racket)
+        #print(self.pos[0], self.pos[1])
             
     def physics(self, racket):
         if self.pos[0] <= racket.pos[2]:
@@ -69,31 +69,55 @@ class BallSpawner:
         if isInEditor:
             canvas.bind_all('<KeyPress-Up>', self.writePos)
 
+        self.i = 0
+
     def start(self):
+        self.levelt = levelr.read()
+        self.levelt = self.levelt.split('-')
+
+    def update(self):
+        self.levelr = open(levelname, "r")
         if isInEditor == False:
             self.read()
 
-    def update(self):
-        global levelr
-        levelr = open(levelname, "r")
-
     def read(self):
-        levelt = levelr.read()
-        levelt = levelt.split()
-        
-        global balllist
-        for i, num in enumerate(levelt):
-            ball = Ball(canvas, 'red', (i * 100) + 600, num)
+        if self.i < len(self.levelt) - 1:
+            self.i += 1
+
+        if int(self.levelt[self.i]) > 0:
+            global balllist
+            ball = Ball(canvas, 'red', 500, int(self.levelt[self.i])*40 - 10)
             balllist.append(ball)
 
     def write(self):
-        pass
+        level.write("0-")
 
-    def writePos(self, evt):
-        pos = racket.pos[1] - 37
-        print(pos)
+    def write1(self, evt):
+        level.write("1-")
 
-        level.write(str(int(pos)) + " ")
+    def write1(self, evt):
+        level.write("2-")
+
+    def write1(self, evt):
+        level.write("3-")
+
+    def write1(self, evt):
+        level.write("4-")
+
+    def write1(self, evt):
+        level.write("5-")
+
+    def write1(self, evt):
+        level.write("6-")
+
+    def write1(self, evt):
+        level.write("7-")
+
+    def write1(self, evt):
+        level.write("8-")
+
+    def write1(self, evt):
+        level.write("9-")
 
 class GameManager:
     def __init__(self):
@@ -158,6 +182,7 @@ racket = Racket(canvas, 'blue')
 ballspawner.start()
 gamemanager.start()
 while isRunning:
+    #print(len(balllist))
     ballspawner.update()
     if isDead == False:
         racket.draw()
