@@ -1,8 +1,6 @@
 from tkinter import *
 import random
 import time
-from playsound import playsound
-from threading import Thread
 
 isInEditor = False
 def loadLevel(filename):
@@ -10,21 +8,6 @@ def loadLevel(filename):
     levelname = filename
     level = open(filename, "a")
     levelr = open(filename, "r")
-
-def play():
-    global play_thread
-    print("1")
-    def play_thread_function():
-        
-        playsound('assets\music\danger.mp3')
-
-    print("2")
-
-    play_thread = Thread(target=play_thread_function)
-    print("3")
-    play_thread.start()
-    print("4")
-
 
 class Ball:
     def __init__(self, canvas, color, x, y):
@@ -117,10 +100,10 @@ class GameManager:
         pass
 
     def start(self):
-        play()
+        pass
 
     def stop(self):
-        play_thread.terminate()
+        pass
 
 
 isRunning = True
